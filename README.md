@@ -29,8 +29,59 @@ STEP-7: The junction character where these two meet forms the cipher character.
 STEP-8: Repeat the above steps to generate the entire cipher text.
 
 
-## PROGRAM
+## PROGRAM:
+```
+#include <stdio.h>
+#include <string.h>
 
-## OUTPUT
+void vigenereEncrypt(char *text, const char *key) {
+    int textLen = strlen(text);
+    int keyLen = strlen(key);
 
-## RESULT
+    for (int i = 0; i < textLen; i++) {
+        char c = text[i];
+        if (c >= 'A' && c <= 'Z') {
+            text[i] = ((c - 'A' + key[i % keyLen] - 'A') % 26) + 'A';
+        } else if (c >= 'a' && c <= 'z') {
+            text[i] = ((c - 'a' + key[i % keyLen] - 'A') % 26) + 'a';
+        }
+    }
+}
+
+void vigenereDecrypt(char *text, const char *key) {
+    int textLen = strlen(text);
+    int keyLen = strlen(key);
+
+    for (int i = 0; i < textLen; i++) {
+        char c = text[i];
+        if (c >= 'A' && c <= 'Z') {
+            text[i] = ((c - 'A' - (key[i % keyLen] - 'A') + 26) % 26) + 'A';
+        } else if (c >= 'a' && c <= 'z') {
+            text[i] = ((c - 'a' - (key[i % keyLen] - 'A') + 26) % 26) + 'a';
+        }
+    }
+}
+
+int main() {
+    const char *key = "KEY";
+    char message[] = "Thisisasecretmessage.";
+
+    vigenereEncrypt(message, key);
+    printf("Encrypted Message: %s\n", message);
+
+    vigenereDecrypt(message, key);
+    printf("Decrypted Message: %s\n", message);
+
+    return 0;
+}
+```
+### Developed by: Guru Prasath K M 
+### Reg No: 212224230079
+
+## OUTPUT:
+<img width="447" height="285" alt="image" src="https://github.com/user-attachments/assets/20c97b9f-22a8-49ed-9014-f6ab0a403ce5" />
+
+
+## RESULT:
+
+Thus,to implement the Vigenere Cipher substitution technique using C program has been done and verified.
