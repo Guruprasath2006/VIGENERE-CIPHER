@@ -33,38 +33,53 @@ STEP-8: Repeat the above steps to generate the entire cipher text.
 ```
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
+// Function to perform Vigenere encryption
 void vigenereEncrypt(char *text, const char *key) {
     int textLen = strlen(text);
     int keyLen = strlen(key);
+    int j = 0;
 
     for (int i = 0; i < textLen; i++) {
         char c = text[i];
-        if (c >= 'A' && c <= 'Z') {
-            text[i] = ((c - 'A' + key[i % keyLen] - 'A') % 26) + 'A';
-        } else if (c >= 'a' && c <= 'z') {
-            text[i] = ((c - 'a' + key[i % keyLen] - 'A') % 26) + 'a';
+        if (isalpha(c)) {  
+            int base = isupper(c) ? 'A' : 'a';
+            int k = toupper(key[j % keyLen]) - 'A';
+            text[i] = (char)(((c - base + k) % 26) + base);
+            j++;
         }
     }
 }
 
+// Function to perform Vigenere decryption
 void vigenereDecrypt(char *text, const char *key) {
     int textLen = strlen(text);
     int keyLen = strlen(key);
+    int j = 0;
 
     for (int i = 0; i < textLen; i++) {
         char c = text[i];
-        if (c >= 'A' && c <= 'Z') {
-            text[i] = ((c - 'A' - (key[i % keyLen] - 'A') + 26) % 26) + 'A';
-        } else if (c >= 'a' && c <= 'z') {
-            text[i] = ((c - 'a' - (key[i % keyLen] - 'A') + 26) % 26) + 'a';
+        if (isalpha(c)) {
+            int base = isupper(c) ? 'A' : 'a';
+            int k = toupper(key[j % keyLen]) - 'A';
+            text[i] = (char)(((c - base - k + 26) % 26) + base);
+            j++;
         }
     }
 }
 
 int main() {
-    const char *key = "KEY";
-    char message[] = "Thisisasecretmessage.";
+    char key[100];
+    char message[200];
+
+    printf("Enter your secret message: ");
+    fgets(message, sizeof(message), stdin);
+    message[strcspn(message, "\n")] = '\0';   
+
+    printf("Enter the key: ");
+    fgets(key, sizeof(key), stdin);
+    key[strcspn(key, "\n")] = '\0';           
 
     vigenereEncrypt(message, key);
     printf("Encrypted Message: %s\n", message);
@@ -74,12 +89,14 @@ int main() {
 
     return 0;
 }
+
 ```
 ### Developed by: Guru Prasath K M 
 ### Reg No: 212224230079
 
 ## OUTPUT:
-<img width="447" height="285" alt="image" src="https://github.com/user-attachments/assets/20c97b9f-22a8-49ed-9014-f6ab0a403ce5" />
+<img width="469" height="296" alt="image" src="https://github.com/user-attachments/assets/38b3bbf2-1db7-4f71-bd09-63ee2897d07a" />
+
 
 
 ## RESULT:
